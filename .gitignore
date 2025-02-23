@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.env
+.vscode/
+node_modules/
+.DS_Store
+
+backup/
+dvd_dump/
+mkv_dump
+
+
+
+.venv/
+venv/
+
+*.log

@@ -1,0 +1,25 @@
+docker ps -a
+docker ls
+docker run -d --name test test:1.0
+docker images
+docker build -t test:1.0 .
+
+docker exec -it <container> bash
+docker run -it <image> bash
+
+
+-----------docker file-------------------
+FROM ubuntu:18.04
+LABEL maintainer="kenneth@harsfort.dk"
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y libdvd-pkg && \
+    echo "libdvd-pkg libdvd-pkg/upgrade select yes" | debconf-set-selections && \
+    dpkg-reconfigure -f noninteractive libdvd-pkg && \
+
+RUN apt-get -y install libdvd-pkg
+
+RUN dpkg-reconfigure -f noninteractive libdvd-pkg
+RUN apt-get -y install dvdbackup
+RUN apt-get install -y python3
+
+
