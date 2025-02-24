@@ -26,13 +26,6 @@ def init_routes(app):
         rip.status = "Updated"
         return jsonify(rip.to_dict())
 
-#        for rip in Rip_Collection.items:
-#            if rip.id == id:
-#                rip.set_title(new_title)
-#                rip.status = "Updated"
-#                return jsonify(rip.to_dict())
-#        return jsonify(status="Not found")
-
     @app.route('/delete/<int:id>', methods=['POST'])
     def delete(id):
         Rip_Collection.remove([rip for rip in Rip_Collection.items if rip.id == id])
@@ -47,13 +40,6 @@ def init_routes(app):
         rip.status = "MKV File Deleted"
         return jsonify(rip.to_dict())
 
-#        for rip in Rip_Collection.items:
-#            if rip.id == id:
-#                rip.delete_mkv_file(filename)
-#                rip.status = "MKV File Deleted"
-#                return jsonify(rip.to_dict())
-#        return jsonify(success=True)
-
     @app.route('/rename/<int:id>', methods=['POST'])
     def rename(id):
         rip=Rip_Collection.get_by_id(id)
@@ -66,16 +52,6 @@ def init_routes(app):
         rip.status = "MKV Files Renamed"
         return jsonify(rip.to_dict()) #TODO: This is a new structure, fix  in tempaltes.py
 
-#        for rip in Rip_Collection.items:
-#            if rip.id == id:
-#                for i, file in enumerate(rip.mkv_dump_files, start=1):
-#                    new_filename = request.form.get(f'mkv_filename_{i}')
-#                    if new_filename:
-#                        file.rename_to = new_filename
-#                rip.do_rename()
-#                rip.status = "MKV Files Renamed"
-#                break
-#        return jsonify(status=rip.status)
 
     @app.route('/rename_based_on_title/<int:id>', methods=['POST'])
     def rename_based_on_title(id):
