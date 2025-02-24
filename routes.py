@@ -1,6 +1,6 @@
 import subprocess
 import os
-from flask import Response, request, render_template_string, jsonify
+from flask import Response, request, render_template_string, jsonify, send_from_directory
 from ripper import Rip_Collection, dvd_dump_dir, mkv_dump_dir
 from templates import form_template
 
@@ -71,7 +71,9 @@ def init_routes(app):
         response = Response(stream_video_ffmpeg(path+'/'+video_file), mimetype="video/mp4")
         return response
 
-
+    @app.route('/static/<path:filename>')
+    def static_files(filename):
+        return send_from_directory('static', filename)
 
 def stream_video_ffmpeg(video_file:str):
     """Runs FFmpeg to transcode and stream video from a specific timestamp."""
