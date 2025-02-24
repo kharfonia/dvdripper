@@ -96,25 +96,6 @@ def init_routes(app):
         return response
 
 
-    @app.route('/test')
-    def frontPage():
-        return """
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Seekable Video Stream</title>
-    </head>
-    <body>
-        <video width="640" height="360" controls>
-            <source src="http://localhost:5000/video/FRIENDS_SERIES1_D1B/B1_t00.mkv" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </body>
-    </html>
-
-    """
-
 
 def stream_video_ffmpeg(video_file:str):
     """Runs FFmpeg to transcode and stream video from a specific timestamp."""

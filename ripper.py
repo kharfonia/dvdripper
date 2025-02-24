@@ -199,7 +199,7 @@ class RipItem:
 #        print("ripper.delete_mkv file Files: ", ", ".join(i.filename for i in self.mkv_dump_files))
         files = [file for file in self.mkv_dump_files if file.filename == filename]
         for file in files:
-            self.mkv_dump_files.remove()
+            self.mkv_dump_files.remove(file)
             os.remove(os.path.join(self.mkv_dump_path, file.filename))
 
 #        self.mkv_dump_files = [file for file in self.mkv_dump_files if file.filename != filename]

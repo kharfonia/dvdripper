@@ -45,6 +45,7 @@ form_template = """
       .actions {
         display: flex;
         gap: 10px;
+        width: 50px;
       }
       .actions button {
         background: none;
@@ -77,8 +78,7 @@ form_template = """
       }
       .mkv-size {
         flex: 1;
-        min-width: 100px;
-        max-width: 100px;
+        text-witdth=100px
         text-align: right;
       }
       .mkv-file input {
