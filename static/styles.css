@@ -18,6 +18,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
+  table-layout: fixed;
 }
 th, td {
   padding: 12px;
@@ -34,12 +35,24 @@ tr:nth-child(even) {
 tr:hover {
   background-color: #f1f1f1;
 }
-
-td.path {
+td.id, th.id {
+    width:50px;
+}
+td.path, th.path {
+    width: 300px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
+td.title, td.mkv-file, th.title, th.mkv-file {
+    display: flex;
+    flex: 1;
+    width: 100%;
+/*    width: 100%;*/
+    box-sizing: border-box;
+/*    padding: 0px;*/
+  }
+  
 
 .actions {
   display: flex;
@@ -69,41 +82,44 @@ td.path {
 .refresh-button:hover {
   background: #0056b3;
 }
-td.title {
-    width:100%;
-}
+/*
 input.title {
+    width: 100%;
+    box-sizing: border-box; 
+    padding: 0;
+    margin: 0;
+}
+
+
+input.mkv-file {
+    flex: 1;
+    width: 100%;
+    box-sizing: border-box; 
+    padding: 0;
+    margin: 0;
+    }
+    */
+input.title, input.mkv-file {
     width: 100%;
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
     padding: 0;
     margin: 0;
-}
+    }
+
 .mkv-file {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 5px;
-  width: 600px;
+  width: 100%;
 }
+  
 .mkv-size {
   flex: 1;
   min-width: 100px;
   max-width: 100px;
   text-align: right;
 }
-td.mkv-file {
-  flex: 1;
-  min-width: 300px;
-  max-width: 300px;
-}
-
-input.mkv-file {
-    flex: 1;
-    width: 100%;
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-    padding: 0;
-    margin: 0;
-    }
   
 .mkv-file button {
   flex-shrink: 0;
