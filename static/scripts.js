@@ -14,16 +14,16 @@ function loadTable() {
 
 function createTable(data) {
   var table = '<table>';
-  table += '<tr><th class="id">ID</th><th class="title">Title</th><th>Device</th><th class="path">DVD Dump Path</th><th class="path">MKV Dump Path</th><th>Status</th><th class="mkv-files">MKV Files</th><th class="actions">Actions</th></tr>';
+  table += '<tr><th class="id">ID</th><th class="title">Title</th><th class="device">Device</th><th class="path">DVD Dump Path</th><th class="path">MKV Dump Path</th><th class="status">Status</th><th class="mkv-files">MKV Files</th><th class="actions">Actions</th></tr>';
   data.items.forEach(function(rip) {
     table += '<tr id="rip-' + rip.id + '">';
     table += '<td class="id">' + rip.id + '</td>';
     table += '<td class="title"><input class="title" type="text" id="title-' + rip.id + '" name="title" value="' + rip.title + '"></td>';
-    table += '<td>' + rip.device + '</td>';
+    table += '<td class="device">' + rip.device + '</td>';
     table += '<td class="path">' + rip.dvd_dump_path + '</td>';
     table += '<td class="path">' + rip.mkv_dump_path + '</td>';
-    table += '<td id="status-' + rip.id + '">' + rip.status + '</td>';
-    table += '<td ckass="mkv-file">';
+    table += '<td class="status" id="status-' + rip.id + '">' + rip.status + '</td>';
+    table += '<td class="mkv">';
     rip.mkv_dump_files.forEach(function(file, index) {
       table += '<div class="mkv-file" data-filename="' + file.filename + '">';
       table += '<input class="mkv-file" type="text" name="mkv_filename_' + (index + 1) + '" value="' + file.filename + '">';

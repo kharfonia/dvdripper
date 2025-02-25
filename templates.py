@@ -12,7 +12,6 @@ form_template = """
       <h1>Rips</h1>
       <button class="refresh-button" onclick="loadTable()">Refresh Table</button>
       <div id="table-container"></div>
-      {{ form_template_bare | safe }}
     </div>
     <div id="overlay" class="overlay" onclick="closeVideoPopup()"></div>
     <div id="video-popup" class="popup">
