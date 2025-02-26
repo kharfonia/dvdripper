@@ -1,0 +1,73 @@
+<html>
+<head>
+    <style>
+.table {
+  display: grid;
+  flex-direction: column;
+  width: 100%;
+  /*max-width: 500px;*/
+  border: 1px solid #ccc;
+}
+
+/* Row Layout */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 200px 1fr;
+  width: 100%;
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+.row:not(.header):nth-child(even) {
+  background-color: #f2f2f2; /* Light gray for every second row */
+}
+.row:not(.header):nth-child(odd) {
+  background-color: #ffffff; /* White for other rows */
+}
+/* Header Row */
+.header {
+  background-color: #333;
+  color: white;
+  font-weight: bold;
+}
+/* Hover Effect for Rows */
+.row:not(.header):hover {
+  background-color: #d1e7fd; /* Light blue when hovering */
+}
+
+/* Table Cells */
+.cell {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+  white-space: nowrap;      /* Prevents text from wrapping */
+  overflow: hidden;         /* Hides the overflowing text */
+  text-overflow: ellipsis;  /* Shows '...' when text is too long */
+  position: relative;       /* Needed for the tooltip */
+}
+    </style>
+</head>
+<body>
+<div class="table">
+    <div class="row header">
+      <div class="cell">Name</div>
+      <div class="cell">Age</div>
+      <div class="cell">Country</div>
+    </div>
+    <div class="row">
+      <div class="cell">Alice</div>
+      <div class="cell">25<br/>x<br/>y<br/>z</div>
+      <div class="cell">USA</div>
+    </div>
+    <div class="row">
+      <div class="cell">Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;Bob&nbsp;</div>
+      <div class="cell">30</div>
+      <div class="cell">Canada</div>
+    </div>
+    <div class="row">
+      <div class="cell">This is a very long title that gets cut off</div>
+      <div class="cell">28</div>
+      <div class="cell">UK</div>
+    </div>
+  </div>
+
+</body>
+</html>  

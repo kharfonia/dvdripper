@@ -45,7 +45,7 @@ def init_routes(app):
         rip=Rip_Collection.get_by_id(id)
         if rip is None: return jsonify(status="File not found")
         for i, file in enumerate(rip.mkv_dump_files, start=1):
-            new_filename = request.form.get(f'mkv_filename_{i}')
+            new_filename = request.form.get(f'mkv_filename_{i}') #TODO: suspected bug here. If a file is deleted in the frontend. the to "arrays" might get out of sync. Find better way to match the new filename with the correct old filename.
             if new_filename:
                 file.rename_to = new_filename
         rip.do_rename()

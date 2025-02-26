@@ -14,58 +14,76 @@ h1 {
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-table {
+
+
+
+
+
+.table {
+  display: grid;
+  flex-direction: column;
   width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  table-layout: fixed;
+  /*max-width: 500px;*/
+  border: 1px solid #ccc;
 }
-th, td {
-  padding: 12px;
-  border: 1px solid #ddd;
+
+/* Row Layout */
+.row {
+  display: grid;
+  grid-template-columns:  50px 1fr  150px 350px 350px 200px  1fr 130px ;
+  width: 100%;
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+.row:not(.header):nth-child(even) {
+  background-color: #f2f2f2; /* Light gray for every second row */
+}
+.row:not(.header):nth-child(odd) {
+  background-color: #ffffff; /* White for other rows */
+}
+/* Header Row */
+.header {
+  background-color: #333;
+  color: white;
+  font-weight: bold;
+}
+/* Hover Effect for Rows */
+.row:not(.header):hover {
+  background-color: #d1e7fd; /* Light blue when hovering */
+}
+
+/* Table Cells */
+.cell {
+  padding: 10px;
+  border: 1px solid #ccc;
   text-align: left;
-  vertical-align: top;
+  white-space: nowrap;      /* Prevents text from wrapping */
+  overflow: hidden;         /* Hides the overflowing text */
+  text-overflow: ellipsis;  /* Shows '...' when text is too long */
+  position: relative;       /* Needed for the tooltip */
 }
-th {
-  background-color: #f4f4f4;
+
+input{
+  width:100%
 }
-tr:nth-child(even) {
-  background-color: #f9f9f9;
+
+div.stacked {
+  margin-bottom: 0px; /* Add space between stacked divs */
+  padding: 0px;
+  background-color: lightgray;
 }
-tr:hover {
-  background-color: #f1f1f1;
+
+
+div.stacked_horizontal {
+  display: flex;
+  flex-direction: row; 
+  gap: 3px; 
 }
-td.id, th.id {
-    width:50px;
+
+div.mkv_file_size {
+  width: 140px;
+  text-align: right;
 }
-td.path, th.path {
-    width: 300px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-td.title{
-    display: flex;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0px;
-  }
-  th.title{
-    display: flex;
-    width: 100%;
-    box-sizing: border-box;
-  }
-   td.mkv, th.mkv {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0px;
-  }
-  td.status, th.status, td.device, th.device {
-    width: 40px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+
 
 .actions {
   display: flex;
@@ -81,6 +99,7 @@ td.title{
 .actions button:hover {
   color: #007BFF;
 }
+
 .refresh-button {
   display: block;
   margin: 20px auto;
@@ -96,47 +115,10 @@ td.title{
   background: #0056b3;
 }
 
-input.title {
-    width: 100%;
-    box-sizing: border-box; 
-    padding: 0px;
-    margin: 0px;
-}
-
-input.mkv-file {
-      width: 100%;
-      box-sizing: border-box; /* Include padding and border in the element's total width and height */
-      padding: 0;
-      margin: 0;
-      }
- 
-.mkv-file {
-
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 5px;
-  width: 100%;
-}
- 
-.mkv-size {
-  flex: 1;
-  min-width: 100px;
-  max-width: 100px;
-  text-align: right;
-}
-  
-.mkv-file button {
-  flex-shrink: 0;
-}
 .mkv-preview {
   flex: 1;
   min-width: 300px;
   max-width: 300px;
-}
-.unsupported-format {
-  color: red;
-  font-weight: bold;
 }
 .popup {
   display: none;
