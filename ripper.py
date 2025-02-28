@@ -194,6 +194,11 @@ class RipItem:
                 file.path = os.path.join(self.mkv_dump_path, file.rename_to)
                 file.rename_to = None
 
+    def get_mkv_file(self, filename: str)->FileItem:
+        for f in self.mkv_dump_files:
+            if f.filename == filename: return f
+        return None
+
     def delete_mkv_file(self, filename: str):
 #        print("ripper.delete_mkv file Deleting: ", filename)
 #        print("ripper.delete_mkv file Files: ", ", ".join(i.filename for i in self.mkv_dump_files))

@@ -1,3 +1,4 @@
+import json
 import subprocess
 import os
 from flask import Response, request, render_template_string, jsonify, send_from_directory
@@ -15,7 +16,6 @@ def init_routes(app):
     @app.route('/get_table_data')
     def get_table_data():
         return jsonify(Rip_Collection.to_dict())
-
 
     @app.route('/update/<int:id>', methods=['POST'])
     def update(id):
@@ -44,13 +44,16 @@ def init_routes(app):
     def rename(id):
         rip=Rip_Collection.get_by_id(id)
         if rip is None: return jsonify(status="File not found")
-        for i, file in enumerate(rip.mkv_dump_files, start=1):
-            new_filename = request.form.get(f'mkv_filename_{i}') #TODO: suspected bug here. If a file is deleted in the frontend. the to "arrays" might get out of sync. Find better way to match the new filename with the correct old filename.
-            if new_filename:
-                file.rename_to = new_filename
+
+        filenamesMapped=json.loads(request.form.get("Filenames"))
+        for filenameset in filenamesMapped:
+            fileitem = rip.get_mkv_file(filenameset["filename"])
+            if fileitem is None: continue
+            fileitem.rename_to=filenameset["rename_to"]
         rip.do_rename()
+
         rip.status = "MKV Files Renamed"
-        return jsonify(rip.to_dict()) #TODO: This is a new structure, fix  in tempaltes.py
+        return jsonify(rip.to_dict()) 
 
 
     @app.route('/rename_based_on_title/<int:id>', methods=['POST'])
@@ -62,6 +65,7 @@ def init_routes(app):
                 rip.status = "MKV Files Renamed Based on Title"
                 mkv_files = [{'filename': file.filename, 'size': file.size} for file in rip.mkv_dump_files]
                 break
+        return jsonify(rip.to_dict())
         return jsonify(status=rip.status, mkv_files=mkv_files)
 
 

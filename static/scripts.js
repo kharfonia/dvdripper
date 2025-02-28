@@ -19,6 +19,7 @@ function fillTable(data){
   });
 }
 
+
 function createTable(data) {
   var table = '<div class="table">';
 //  table += '<tr><th class="id">ID</th><th class="title">Title</th><th class="device">Device</th><th class="path">DVD Dump Path</th><th class="path">MKV Dump Path</th><th class="status">Status</th><th class="mkv-files">MKV Files</th><th class="actions">Actions</th></tr>';
@@ -42,20 +43,6 @@ function createTable(data) {
     table += '<div class="cell" id="mkv_dump_path-' + rip.id + '"></div>';
     table += '<div class="cell" id="status-' + rip.id + '"></div>';
     table += '<div class="cell" id="mkv_files-' + rip.id + '">' ;
-
-    rip.mkv_dump_files.forEach(function(file, index) {
-      table += '<div class="stacked" data-filename="' + file.filename + '">';
-      table += '<div class="stacked_horizontal">';
-      table += '<input type="text" name="mkv_filename_' + (index + 1) + '" value="' + file.filename + '">';
-
-      table += '<div class="mkv_file_size">' + (file.size / (1024 * 1024)).toFixed(2) + ' MB</div>';
-      table += '<button title="Delete MKV File" onclick="deleteMKVFile(' + rip.id + ', \'' + file.filename + '\')"><i class="fas fa-trash-alt"></i></button>';
-      if (file.filename.endsWith('.mkv')) {
-        table += '<button title="Preview MKV File" onclick="openVideoPopup(\'' + rip.title + '\', \'' + file.filename + '\')"><i class="fas fa-play"></i></button>';
-      } 
-      table += '</div>';
-      table += '</div>';
-    });
     table += '</div>';
 
 
@@ -72,6 +59,28 @@ function createTable(data) {
   return table;
 }
 
+
+function createTableCellMkvFiles(rip){
+  cell="";
+  rip.mkv_dump_files.forEach(function(file, index) {
+    cell += '<div class="stacked" data-filename="' + file.filename + '">';
+    cell += '<div class="stacked_horizontal">';
+    cell += '<input type="text" name="mkv_filename_' + (index + 1) + '" id="mkv_filename_' + (index + 1) + '" data-orig_filename="' + file.filename + '" value="' + file.filename + '">';
+
+    cell += '<div class="mkv_file_size">' + (file.size / (1024 * 1024)).toFixed(2) + ' MB</div>';
+    cell += '<button title="Delete MKV File" onclick="deleteMKVFile(' + rip.id + ', \'' + file.filename + '\')"><i class="fas fa-trash-alt"></i></button>';
+    if (file.filename.endsWith('.mkv')) {
+      cell += '<button title="Preview MKV File" onclick="openVideoPopup(\'' + rip.title + '\', \'' + file.filename + '\')"><i class="fas fa-play"></i></button>';
+    } 
+    cell += '</div>';
+    cell += '</div>';
+  });
+  return cell;
+}
+
+
+
+globalx=null
 function setValuesForRipItem(id, rip)
 {
   document.getElementById('id-' + id).innerText = rip.id;
@@ -80,8 +89,13 @@ function setValuesForRipItem(id, rip)
   document.getElementById('dvd_dump_path-' + id).innerText = rip.dvd_dump_path;
   document.getElementById('mkv_dump_path-' + id).innerText = rip.mkv_dump_path;
   document.getElementById('status-' + id).innerText = rip.status;
+  document.getElementById('mkv_files-' + id).innerHTML = createTableCellMkvFiles(rip);
 
-
+//  x=document.getElementById('mkv_files-' + rip.id );
+//  globalx=x
+//  x=x.querySelector("#mkv_filename_2");
+//  console.log(x.innerHTML)
+//  console.log(x)
 
 }
 
@@ -122,10 +136,13 @@ function deleteMKVFile(ripId, filename) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
       var response = JSON.parse(xhr.responseText);
+/*
       if (response.success) {
         var fileRow = document.querySelector('#rip-' + ripId + ' div[data-filename="' + filename + '"]');
         fileRow.parentNode.removeChild(fileRow);
       }
+*/
+      setValuesForRipItem(ripId, response)
     }
   };
   xhr.send('filename=' + encodeURIComponent(filename));
@@ -138,14 +155,17 @@ function renameMKVFiles(id) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
       var response = JSON.parse(xhr.responseText);
+      setValuesForRipItem(id, response)
       document.getElementById('status-' + id).innerText = response.status;
     }
   };
   var formData = new FormData();
   var inputs = document.querySelectorAll('#rip-' + id + ' input[name^="mkv_filename_"]');
+  var filenames=[];
   inputs.forEach(function(input) {
-    formData.append(input.name, input.value);
+    filenames.push({filename: input.getAttribute("data-orig_filename") , rename_to: input.value});
   });
+  formData.append("Filenames",JSON.stringify(filenames));
   xhr.send(new URLSearchParams(formData).toString());
 }
 
@@ -156,11 +176,7 @@ function renameMKVFilesBasedOnTitle(id) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
       var response = JSON.parse(xhr.responseText);
-      document.getElementById('status-' + id).innerText = response.status;
-      var mkvFiles = response.mkv_files;
-      for (var i = 0; i < mkvFiles.length; i++) {
-        document.querySelector('#rip-' + id + ' input[name="mkv_filename_' + (i + 1) + '"]').value = mkvFiles[i].filename;
-      }
+      setValuesForRipItem(id, response)
     }
   };
   xhr.send();
